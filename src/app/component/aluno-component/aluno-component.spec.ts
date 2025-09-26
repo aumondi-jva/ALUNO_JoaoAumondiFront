@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlunoComponent } from './aluno-component';  // Ajustei para o nome correto do componente
+import { AlunoComponent } from './aluno-component';
 
 describe('AlunoComponent', () => {
   let component: AlunoComponent;
@@ -7,7 +7,7 @@ describe('AlunoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlunoComponent]  // Mudando de ProdutoComponent para AlunoComponent
+      imports: [AlunoComponent]
     })
     .compileComponents();
 

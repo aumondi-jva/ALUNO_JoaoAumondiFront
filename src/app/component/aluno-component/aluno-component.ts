@@ -6,22 +6,22 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-aluno-component',  // Ajustado para o nome correto do componente
+  selector: 'app-aluno-component',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './aluno-component.html',  // Alterado para o nome correto do arquivo
-  styleUrls: ['./aluno-component.css']  // Alterado para o nome correto do arquivo
+  templateUrl: './aluno-component.html',
+  styleUrls: ['./aluno-component.css']
 })
 export class AlunoComponent implements OnInit {
 
-  private service = inject(AlunoService);  // Alterado para o AlunoService
+  private service = inject(AlunoService);
 
-  alunos: AlunoModel[] = [];  // Alterado para alunos
+  alunos: AlunoModel[] = [];
 
   editarAluno: AlunoModel | null = null;
   novoNome = '';
-  novoCurso = '';  // Alterado de novoPreco para novoCurso
-  novoTelefone = '';  // Alterado de novoDescricao para novoTelefone
+  novoCurso = '';
+  novoTelefone = '';
   erro = '';
   sucesso = '';
 
@@ -48,7 +48,6 @@ export class AlunoComponent implements OnInit {
 
   adicionar(form?: NgForm) {
     this.erro = '';
-    // Validação no TS como fallback (template já valida)
     if (!this.novoNome || this.novoNome.trim().length < 3) {
       this.erro = 'Nome é obrigatório e deve ter ao menos 3 caracteres.';
       return;
@@ -102,13 +101,11 @@ export class AlunoComponent implements OnInit {
       return;
     }
 
-    // se o form existe, use sua validação como primeira verificação
     if (form && form.invalid) {
       this.erro = 'Corrija os campos do formulário antes de salvar.';
       return;
     }
 
-    // fallback adicional no TS (caso algum input não tenha sido validado no template)
     if (!this.editarAluno.nome || this.editarAluno.nome.trim().length < 3) {
       this.erro = 'Nome é obrigatório e deve ter ao menos 3 caracteres.';
       return;
@@ -124,7 +121,6 @@ export class AlunoComponent implements OnInit {
         if (result) {
           this.carregar();
           this.sucesso = 'Aluno atualizado com sucesso';
-          // limpa estado do form/modal
           if (form) form.resetForm();
           this.editarAluno = null;
           setTimeout(() => this.sucesso = '', 3000);
