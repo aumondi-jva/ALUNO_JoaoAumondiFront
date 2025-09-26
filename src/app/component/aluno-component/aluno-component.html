@@ -1,0 +1,101 @@
+<h2 class="mb-3">Alunos</h2>
+
+<div *ngIf="loading" class="alert alert-info">Carregando...</div>
+<div *ngIf="erro" class="alert alert-danger">{{erro}}</div>
+<div *ngIf="sucesso" class="alert alert-success">{{sucesso}}</div>
+
+<div class="row g-2 align-items-center mb-3">
+    <div class="col-sm-6 col-md-4">
+        <input class="form-control"
+               [(ngModel)]="novoNome"
+               placeholder="Nome do aluno" >
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <input class="form-control"
+               [(ngModel)]="novoCurso"
+               placeholder="Curso do aluno" >
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <input class="form-control"
+               [(ngModel)]="novoTelefone"
+               placeholder="Telefone do aluno" >
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary" (click)="adicionar()">Adicionar</button>
+    </div>
+</div>
+
+<ul class="list-group mb-3">
+    @for (aluno of alunos; track aluno.id) {
+        <li class="list-group-item d-flex justify-content-between
+        align-items-center">
+            <span>{{aluno.nome}} - {{aluno.curso}} - {{aluno.telefone}}</span>
+
+            <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal"
+                    (click)="editarAluno = aluno">
+                    Editar
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="remover(aluno.id)">Remover</button>
+          </div>
+        </li>
+    }
+</ul>
+
+<div *ngIf="alunos.length === 0" class="alert alert-info">Nenhum aluno cadastrado</div>
+
+<!-- Modal em Bootstrap -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div *ngIf="editarAluno">
+              <div class="modal-header">
+                  <h4 class="modal-title"> Editar Aluno</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <div class="modal-body">
+                  <input class="form-control mb-2"
+                         [(ngModel)]="editarAluno.nome"
+                         placeholder="Nome"/>
+                  <div *ngIf="editarAluno && (!editarAluno.nome || editarAluno.nome.trim().length < 3)"
+                       class="text-danger small">
+                    Nome é obrigatório e deve ter ao menos 3 caracteres.
+                  </div>
+
+                  <input class="form-control mb-2"
+                         [(ngModel)]="editarAluno.curso"
+                         placeholder="Curso"/>
+                  <div *ngIf="editarAluno && (!editarAluno.curso || editarAluno.curso.trim().length < 3)"
+                       class="text-danger small">
+                    Curso é obrigatório e deve ter ao menos 3 caracteres.
+                  </div>
+
+                  <input class="form-control mb-2"
+                         [(ngModel)]="editarAluno.telefone"
+                         placeholder="Telefone"/>
+              </div>
+
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button"
+                          class="btn btn-primary"
+                          (click)="salvarEdicao()"
+                          [disabled]="
+                            loading ||
+                            !editarAluno ||
+                            !editarAluno.nome || editarAluno.nome.trim().length < 3 ||
+                            !editarAluno.curso || editarAluno.curso.trim().length < 3
+                          "
+                          data-bs-dismiss="modal">
+                    Salvar
+                  </button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
